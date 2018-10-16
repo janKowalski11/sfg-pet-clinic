@@ -4,7 +4,7 @@ Author: BeGieU
 Date: 14.10.2018
 */
 
-public class Person
+public class Person extends BaseEntity
 {
     private String firstName;
     private String lastName;
