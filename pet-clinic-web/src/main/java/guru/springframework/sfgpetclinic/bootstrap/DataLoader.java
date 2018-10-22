@@ -5,6 +5,7 @@ Date: 22.10.2018
 */
 
 import guru.springframework.sfgpetclinic.model.Owner;
+import guru.springframework.sfgpetclinic.model.Vet;
 import guru.springframework.sfgpetclinic.services.OwnerService;
 import guru.springframework.sfgpetclinic.services.VetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,22 +35,22 @@ public class DataLoader implements CommandLineRunner
         ownerService.save(owner1);
 
         Owner owner2 = new Owner();
-        owner1.setId(2L);
-        owner1.setFirstName("Oskar");
-        owner1.setLastName("PamPam");
+        owner2.setId(2L);
+        owner2.setFirstName("Oskar");
+        owner2.setLastName("PamPam");
         ownerService.save(owner2);
 
-//        Vet vet1 = new Vet();
-//        vet1.setId(1L);
-//        vet1.setFirstName("Tadzia");
-//        vet1.setLastName("Patriotka");
-//        vetService.save(vet1);
-//
-//        Vet vet2 = new Vet();
-//        vet1.setId(2L);
-//        vet1.setFirstName("Bonus");
-//        vet1.setLastName("Erpeka");
-//        vetService.save(vet2);
+        Vet vet1 = new Vet();
+        vet1.setId(1L);
+        vet1.setFirstName("Tadzia");
+        vet1.setLastName("Patriotka");
+        vetService.save(vet1);
+
+        Vet vet2 = new Vet();
+        vet2.setId(2L);
+        vet2.setFirstName("Bonus");
+        vet2.setLastName("Erpeka");
+        vetService.save(vet2);
 
 
 
