@@ -4,15 +4,11 @@ Author: BeGieU
 Date: 17.10.2018
 */
 
-import guru.springframework.sfgpetclinic.model.Owner;
 import guru.springframework.sfgpetclinic.services.OwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.Iterator;
-import java.util.Set;
 
 @RequestMapping("/owners")
 @Controller
@@ -39,16 +35,7 @@ public class OwnerController
         model.addAttribute("owners", ownerService.findAll());
 
 
-        //TODO fix bug: http://localhost:8081/owners pokazuje jednego ownera mimo ze powinien dwoje
-        Set<Owner> ownerSet = ownerService.findAll();
 
-
-        for (Iterator<Owner> it = ownerSet.iterator(); it.hasNext(); )
-        {
-            Owner owner = it.next();
-            System.out.println(owner.getFirstName());
-
-        }
 
         return "Owners/index";
     }
