@@ -25,7 +25,7 @@ public class VetController
     public String listVets(Model model)
     {
         model.addAttribute("vets", vetService.findAll());
-
+        System.out.println("loading owners list...");
 
 
         return "vets/index";

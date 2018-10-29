@@ -33,7 +33,7 @@ public class OwnerController
     public String Owners(Model model)
     {
         model.addAttribute("owners", ownerService.findAll());
-
+        System.out.println("loading owners list...");
 
 
 
