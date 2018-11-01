@@ -8,9 +8,16 @@ import guru.springframework.sfgpetclinic.model.BaseEntity;
 
 import java.util.*;
 
-//Id jest czyms co dziedziczy z longa, type musi byc czyms co dziedziczy z base entity
-//czyli do nawiasu diamentowego mozna podac tylko typ dziedziczacy z abse entity  i
-//id dziedziczace z longa
+/*
+ *Id jest czyms co dziedziczy z longa, type musi byc czyms co dziedziczy z base entity
+ *czyli do nawiasu diamentowego mozna podac tylko typ dziedziczacy z abse entity  i
+ *id dziedziczace z longa (Long dziedziczy z Longa, BaseEntity dziedziczy BaseEntity itd)
+ **/
+
+/*
+* Z kolei ze slowem super jest na odwrot jesli by bylo T super BaseEntity
+* to znaczy ze T musi byc nadklasa(superklasa) dla base entity lub byc BaseEntityitd
+* * */
 public abstract class AbstractMapService<T extends BaseEntity, ID extends Long>
 {
 
@@ -21,11 +28,11 @@ public abstract class AbstractMapService<T extends BaseEntity, ID extends Long>
         Long nextId = null;
         try
         {
-            nextId=Collections.max(map.keySet()) + 1;
+            nextId = Collections.max(map.keySet()) + 1;
         }
         catch (NoSuchElementException e)
         {
-            nextId=1L;
+            nextId = 1L;
         }
 
         return nextId;
@@ -69,8 +76,10 @@ public abstract class AbstractMapService<T extends BaseEntity, ID extends Long>
     void delete(T object)
     {
         map.entrySet().removeIf(
-                entry -> entry.getValue().equals(object));
+                element -> element.getValue().equals(object));
     }
+
+
 
 
 }
