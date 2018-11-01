@@ -30,14 +30,18 @@ public class OwnerController
     }
 
     @RequestMapping({"", "/", "/index,", "/index.html"})
-    public String Owners(Model model)
+    public String listOwners(Model model)
     {
         model.addAttribute("owners", ownerService.findAll());
         System.out.println("loading owners list...");
 
-
-
         return "Owners/index";
+    }
+
+    @RequestMapping({"/find"})
+    public String findOwners()
+    {
+        return "notimplemented";
     }
 
 }
