@@ -6,7 +6,12 @@ Date: 16.10.2018
 
 
 import guru.springframework.sfgpetclinic.model.Owner;
+import guru.springframework.sfgpetclinic.model.Pet;
+import guru.springframework.sfgpetclinic.model.PetType;
 import guru.springframework.sfgpetclinic.services.OwnerService;
+import guru.springframework.sfgpetclinic.services.PetService;
+import guru.springframework.sfgpetclinic.services.PetTypeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
@@ -14,6 +19,16 @@ import java.util.Set;
 @Component
 public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements OwnerService
 {
+    private final PetTypeService petTypeService;
+    private final PetService petService;
+
+    @Autowired
+    public OwnerServiceMap(PetTypeService petTypeService, PetService petService)
+    {
+        this.petTypeService = petTypeService;
+        this.petService = petService;
+    }
+
     @Override
     public Set<Owner> findAll()
     {
@@ -27,9 +42,55 @@ public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements 
     }
 
     @Override
-    public Owner save(Owner object)
+    public Owner save(Owner owner)
     {
-        return super.save( object);
+        if (owner != null)
+        {
+            if (owner.getPets() != null)
+            {
+                owner.getPets().forEach(pet ->
+                {
+                    if (pet.getPetType() != null)
+                    {
+                        if (pet.getPetType().getId() == null)
+                        {
+                            /*
+                             * klasy typu ...MapService dziedzicza po Abstract Map service
+                             * to znaczy ze jesli zostaly dodane do setu( zostaly zmapowane)
+                             * to maja id bo metda save im zawsze przydziela.
+                             * z teg wniosek zejesli pet.getPetType().getId()==null
+                             * czyli pet type id jest null to nie ma go w secie wiec
+                             * trzeba go dodac, co robi linijka ponizej. ESSA
+                             * */
+                            PetType savedPetType = petTypeService.save(pet.getPetType());
+                            /*
+                             * ta linia prawdopodobnie nie potrzebna dodana poto
+                             * zeby sie upewnic ze  pet ma takisam pet type jak
+                             * w pet service
+                             * */
+                            pet.setPetType(savedPetType);
+                        }
+                    }
+                    else
+                    {
+                        throw new RuntimeException("Pet type is required");
+                    }
+
+                    if (pet.getId() == null)
+                    {
+                        /*analogiczna sytuacja jak w ifie powyzej */
+                        Pet savedPet = petService.save(pet);
+                        pet.setId(savedPet.getId());
+                    }
+
+                });
+            }
+            return super.save(owner);
+        }
+        else
+        {
+            return null;
+        }
     }
 
     @Override
