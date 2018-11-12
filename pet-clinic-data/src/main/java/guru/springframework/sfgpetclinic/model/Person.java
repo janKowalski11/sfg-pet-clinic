@@ -8,7 +8,8 @@ Author: BeGieU
 Date: 14.10.2018
 */
 
-/*tylko dziedziczymy z klasy person nie chcemy jej w DB*/
+/*tylko dziedziczymy z klasy person nie chcemy jej w DB
+* bezposrednio*/
 @MappedSuperclass
 public class Person extends BaseEntity
 {
