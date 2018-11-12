@@ -6,7 +6,7 @@ Date: 14.10.2018
 
 import java.time.LocalDate;
 
-public class Pet extends  BaseEntity
+public class Pet extends BaseEntity
 {
     private String name;
     private PetType petType;
