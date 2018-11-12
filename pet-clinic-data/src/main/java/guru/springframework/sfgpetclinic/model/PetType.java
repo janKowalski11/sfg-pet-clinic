@@ -4,6 +4,11 @@ Author: BeGieU
 Date: 14.10.2018
 */
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "types")
 public class PetType extends BaseEntity
 {
     private String name;
