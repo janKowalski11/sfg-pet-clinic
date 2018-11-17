@@ -11,7 +11,7 @@ import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 
 /*sygnalizuje ze z tej klasy bedzie tylko dziedziczone
- * i nie chcemy tego obiektu w zadnych tabelach
+ * i nie chcemy tego obiektu w zadnych tabelach i
  * A mapped superclass
  * has no separate table defined for it.*/
 @MappedSuperclass
