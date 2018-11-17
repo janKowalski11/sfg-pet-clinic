@@ -6,9 +6,11 @@ Date: 17.11.2018
 
 import guru.springframework.sfgpetclinic.model.Visit;
 import guru.springframework.sfgpetclinic.services.VisitService;
+import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+@Service
 public class VisitMapService extends AbstractMapService<Visit, Long> implements VisitService
 {
     @Override
@@ -26,6 +28,11 @@ public class VisitMapService extends AbstractMapService<Visit, Long> implements 
     @Override
     public Visit save(Visit visit)
     {
+        System.out.println(visit.getPet() == null);
+        System.out.println(visit.getPet().getOwner() == null);
+        System.out.println("visit.getPet().getId() == null: "+(visit.getPet().getId() == null));
+        System.out.println( visit.getPet().getOwner().getId() == null);
+
         if (visit.getPet() == null ||
                 visit.getPet().getOwner() == null ||
                 visit.getPet().getId() == null ||

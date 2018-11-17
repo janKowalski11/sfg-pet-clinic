@@ -9,6 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 
 //jako przypomnienie, spring jpa zapewnia implementacje
 //tego interfejsu nie trzeba go implementowac recznie
+//zwroc uwage ze jest w jave TYLKO jedno crudrepository i to w bibliotece springa
 public interface PetRepository extends CrudRepository<Pet,Long>
 {
 }
