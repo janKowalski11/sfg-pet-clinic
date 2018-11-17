@@ -82,11 +82,17 @@ public class DataLoader implements CommandLineRunner
         owner2.setTelephone("606060606");
         ownerService.save(owner2);
 
-        Visit catVisit=new Visit();
+        Visit catVisit = new Visit();
         catVisit.setPet(bosskasPet);
         catVisit.setDate(LocalDate.now());
         catVisit.setDescription("Prawilny kocur z ulicy");
 
+        /*
+         *UWAGA: miejsce w ktorym znajduje sie zapis do repo nie przypadkowy
+         * metoda repo.save() KOPIUJE obiekt do bazy danych:
+         * W TAKIM STANIE JAKIM OBJEKT JEST W MIEJSCU WYWYOLANIA LINII.
+         * tzn ze jesli uzyyli bysmy sava kilka linii wyzej to kilka pol moglo by byc null
+         * czy w jakim obiekcie id moze byc rowne null co mialo miejsce wczesniej*/
         visitService.save(catVisit);
 
         Pet oskarsPet = new Pet();
