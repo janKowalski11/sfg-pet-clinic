@@ -28,7 +28,7 @@ List<? super Integer> foo3 = new ArrayList<Object>();   // Object is a superclas
 public abstract class AbstractMapService<T extends BaseEntity, ID extends Long>
 {
 
-    protected Map<Long, T> map = new HashMap<>();
+    private Map<Long, T> map = new HashMap<>();
 
     private Long getNextId()
     {
