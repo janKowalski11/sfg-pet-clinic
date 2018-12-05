@@ -12,9 +12,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -31,17 +36,17 @@ class OwnerSpringDataJpaServiceTest
     @InjectMocks
     OwnerSpringDataJpaService ownerService;
 
+    Owner returnedOwner;
 
     @BeforeEach
     void setUp()
     {
-
+        returnedOwner = new Owner();
     }
 
     @Test
     void findByLastName()
     {
-        Owner returnedOwner = new Owner();
         returnedOwner.setId(1L);
         returnedOwner.setLastName(LAST_NAME);
 
@@ -57,11 +62,12 @@ class OwnerSpringDataJpaServiceTest
     {
         Set<Owner> returnOwners = new HashSet<>();
         returnOwners.add(new Owner());
+        returnOwners.add(new Owner());
 
         when(ownerRepository.findAll()).thenReturn(returnOwners);
 
         Set<Owner> owners = ownerService.findAll();
-        assertEquals(1, owners.size());
+        assertEquals(2, owners.size());
 
 
     }
@@ -69,20 +75,37 @@ class OwnerSpringDataJpaServiceTest
     @Test
     void findById()
     {
+        Owner returnedOwner = new Owner();
+        when(ownerRepository.findById(any())).thenReturn(Optional.of(returnedOwner));
+
+        assertNotNull(ownerService.findById(1L));
+
     }
 
     @Test
     void save()
     {
+        when(ownerRepository.save(any())).thenReturn(returnedOwner);
+
+        assertNotNull(ownerService.save(new Owner()));
+
+        verify(ownerRepository).save(any());
     }
 
     @Test
     void delete()
     {
+        //Ten test sprawdza czy ownerService.delete() wywoluje
+        //ownerRepository.delete()
+        ownerService.delete(returnedOwner);
+        verify(ownerRepository).delete(any());
+
     }
 
     @Test
     void deleteById()
     {
+        ownerService.deleteById(1L);
+        verify(ownerRepository).deleteById(anyLong());
     }
 }

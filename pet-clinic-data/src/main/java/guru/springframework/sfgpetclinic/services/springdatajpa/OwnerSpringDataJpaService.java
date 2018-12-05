@@ -47,6 +47,10 @@ public class OwnerSpringDataJpaService implements OwnerService
 
         ownerRepository.findAll().forEach(owners::add);
 
+        for (Owner owner : ownerRepository.findAll())
+        {
+            owners.add(owner);
+        }
         return owners;
     }
 
