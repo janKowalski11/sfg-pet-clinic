@@ -51,7 +51,7 @@ public class OwnerController
     public ModelAndView showOwner(@PathVariable("ownerId") Long ownerId)
     {
         //adding view
-        ModelAndView modelAndView = new ModelAndView("owners/ownerDetail");
+        ModelAndView modelAndView = new ModelAndView("owners/ownerDetails");
 
         modelAndView.addObject("owner", ownerService.findById(ownerId));
         return modelAndView;
