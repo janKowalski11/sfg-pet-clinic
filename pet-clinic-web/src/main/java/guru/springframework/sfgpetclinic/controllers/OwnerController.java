@@ -38,7 +38,7 @@ public class OwnerController
         model.addAttribute("owners", ownerService.findAll());
         System.out.println("loading owners list...");
 
-        return "Owners/index";
+        return "owners/index";
     }
 
     @RequestMapping({"/find"})
