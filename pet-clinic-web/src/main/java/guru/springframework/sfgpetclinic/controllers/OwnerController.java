@@ -4,16 +4,17 @@ Author: BeGieU
 Date: 17.10.2018
 */
 
+import guru.springframework.sfgpetclinic.model.Owner;
 import guru.springframework.sfgpetclinic.services.OwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @RequestMapping("/owners")
 @Controller
@@ -35,15 +36,16 @@ public class OwnerController
     }
 
     /*Zabezpieczenie ktore sprawia ze nie ma mozliwosci wykonac metody @Post
-    * na polu Id. Czyli uzytkownik strony nie moze ustawic w zaden
-    * sposob id obiektu wysylanego do DB. Tylko DB moze zmieniac id*/
+     * na polu Id. Czyli uzytkownik strony nie moze ustawic w zaden
+     * sposob id obiektu wysylanego do DB. Tylko DB moze zmieniac id*/
     @InitBinder
     public void setAllowedFields(WebDataBinder dataBinder)
     {
         dataBinder.setDisallowedFields("id");
     }
 
-    @RequestMapping({"", "/", "/index,", "/index.html"})
+    //todo: make this available for admin use only !
+    @GetMapping("/allOwners")
     public String listOwners(Model model)
     {
         model.addAttribute("owners", ownerService.findAll());
@@ -53,9 +55,41 @@ public class OwnerController
     }
 
     @RequestMapping({"/find"})
-    public String findOwners()
+    public String findOwners(Model model)
     {
-        return "notimplemented";
+        model.addAttribute("owner", new Owner());
+        return "owners/findOwners";
+    }
+
+
+    /* BindingResult holds the result of the validation and binding and contains errors that may have occurred. */
+    @GetMapping("/")
+    public String processFindForm(@ModelAttribute("owner") Owner owner, BindingResult bindingResult, Model model)
+    {
+        // if owner is empty then return all entities
+        if (owner.getLastName() == null)
+        {
+            owner.setLastName("");
+        }
+
+        List<Owner> results = ownerService.findAllByLastNameLike(owner.getLastName());
+        if (results.isEmpty())
+        {
+            bindingResult.rejectValue("lastName", "notFound", "notFound");
+            return "owners/findOwners";
+        }
+        else if (results.size() == 1)
+        {
+            owner = results.get(0);
+            return "redirect:/owners/" + owner.getId();
+        }
+        else
+        {
+            model.addAttribute("selections", results);
+            return "owners/ownersList";
+        }
+
+
     }
 
     @GetMapping("/{ownerId}")
