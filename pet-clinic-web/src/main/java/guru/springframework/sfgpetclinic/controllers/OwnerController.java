@@ -14,6 +14,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping("/owners")
@@ -72,7 +73,7 @@ public class OwnerController
             owner.setLastName("");
         }
 
-        List<Owner> results = ownerService.findAllByLastNameLike("%" + owner.getLastName()+"%");
+        List<Owner> results = ownerService.findAllByLastNameLike("%" + owner.getLastName() + "%");
         if (results.isEmpty())
         {
             bindingResult.rejectValue("lastName", "notFound", "notFound");
@@ -103,5 +104,54 @@ public class OwnerController
 
     }
 
+    @GetMapping("/new")
+    public String initCreationForm(Model model)
+    {
+        model.addAttribute("owner", new Owner());
+        return "owners/createOrUpdateOwnerForm";
+    }
+
+    @PostMapping("/new")
+    public String processCreationForm(@Valid @ModelAttribute("owner") Owner owner,
+                                      BindingResult bindingResult)
+    {
+
+        if (bindingResult.hasErrors())
+        {
+            return "owners/createOrUpdateOwnerForm";
+        }
+        else
+        {
+            ownerService.save(owner);
+            return "redirect:/owners/" + owner.getId();
+        }
+    }
+
+    @GetMapping("/{ownerId}/edit")
+    public String initUpdateOwnerForm(@PathVariable("ownerId") Long ownerId, Model model)
+    {
+        model.addAttribute(ownerService.findById(ownerId));
+        return "owners/createOrUpdateOwnerForm";
+    }
+
+    @PostMapping("/{ownerId}/edit")
+    public String processUpdateOwnerForm(@ModelAttribute("owner") @Valid Owner owner,
+                                         @PathVariable("ownerId") Long ownerId,
+                                         BindingResult bindingResult)
+    {
+        if (bindingResult.hasErrors())
+        {
+            return "owners/createOrUpdateOwnerForm";
+        }
+        else
+        {
+            /*trzeba recznie ustawic Id bo mamy metode setAllowedFields
+            ktora nie pozwala aby w modelu bylo ustawione id wiec
+            musimy to zrobic sami. Reszta ustawiona przez frameWork*/
+            owner.setId(ownerId);
+            ownerService.save(owner);
+            return "redirect:/owners/" + ownerId;
+        }
+    }
 
 }

@@ -139,4 +139,24 @@ class OwnerControllerTest
                 .andExpect(model().attributeExists("selections"))
                 .andExpect(model().size(2));
     }
+    //todo: write tests below!
+    @Test
+    void initCreationForm() throws Exception {
+
+    }
+
+    @Test
+    void processCreationForm() throws Exception {
+
+    }
+
+    @Test
+    void initUpdateOwnerForm() throws Exception {
+
+    }
+
+    @Test
+    void processUpdateOwnerForm() throws Exception {
+
+    }
 }
