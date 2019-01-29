@@ -27,6 +27,37 @@ public class Owner extends Person
 
     }
 
+    /*returns the pet with the given name or null if none exists for this owner*/
+    public Pet getPet(String name, boolean ignoreNew)
+    {
+        name = name.toLowerCase();
+
+        for (Pet pet : pets)
+        {
+            //todo: refactor this if
+            /*jesli ignoreNew jest ustawione na false to ten if zawsze jest prawdziwy wiec to nic nie zmienia
+             * jesli jest ustawwione na true  to wtedy sprawdza czy pet jest nowy  jesli nowy to go ignoruje
+             * ptanie po co ?  prwadopodobnie zeby do controllera do funkcji update to uzyc bo jesli aktualizujemy
+             * to mozemy zignorowac nowy obiekt ?*/
+            if (!ignoreNew || !pet.isNew())
+            {
+                String compName = pet.getName();
+                compName = compName.toLowerCase();
+
+                if (compName.equals(name))
+                {
+                    return pet;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public Pet getPet(String name)
+    {
+        return getPet(name, false);
+    }
 
     public String getAddress()
     {
@@ -65,7 +96,8 @@ public class Owner extends Person
 
     public void setPets(Set<Pet> pets)
     {
-        this.pets = pets;
+        if (pets != null)
+            this.pets = pets;
     }
 
 }

@@ -122,8 +122,8 @@ public class OwnerController
         }
         else
         {
-            ownerService.save(owner);
-            return "redirect:/owners/" + owner.getId();
+            Owner returned=ownerService.save(owner);
+            return "redirect:/owners/" + returned.getId();
         }
     }
 
