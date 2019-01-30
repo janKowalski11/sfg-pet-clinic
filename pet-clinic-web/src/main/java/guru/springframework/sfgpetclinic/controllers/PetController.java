@@ -59,7 +59,7 @@ public class PetController
     }
 
     @GetMapping("/pets/new")
-    public String initCreationForm(Owner owner, Model model)
+    public String initCreationForm(@ModelAttribute Owner owner, Model model)
     {
         Pet pet = new Pet();
         owner.getPets().add(pet);
@@ -69,7 +69,7 @@ public class PetController
     }
 
     @PostMapping("/pets/new")
-    public String processCreationForm(Owner owner, @Valid Pet pet,
+    public String processCreationForm(@ModelAttribute Owner owner, @Valid Pet pet,
                                       BindingResult bindingResult, Model model)
     {
         /*
