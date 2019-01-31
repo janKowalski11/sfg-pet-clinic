@@ -12,10 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -145,6 +142,26 @@ class OwnerControllerTest
                 .andExpect(model().attributeExists("selections"))
                 .andExpect(model().size(2));
     }
+
+    @Test
+    void processFindFormEmptyReturnMany() throws Exception
+    {
+        Owner owner1 = new Owner();
+        owner1.setId(1L);
+
+        Owner owner2 = new Owner();
+        owner2.setId(2L);
+
+        when(ownerService.findAllByLastNameLike(anyString())).thenReturn(
+                Arrays.asList(owner1, owner2));
+
+        mockMvc.perform(get("/owners/").param("lastName", ""))
+                .andExpect(status().isOk())
+                .andExpect(view().name("owners/ownersList"))
+                .andExpect(model().attribute("selections", hasSize(2)));
+        ;
+    }
+
 
     //todo: write tests below!
     @Test

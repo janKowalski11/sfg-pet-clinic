@@ -32,7 +32,8 @@ public class PetTypeFormatter implements Formatter<PetType>
         return petType.getName();
     }
 
-    //metoda dostaje petType jako string i dopaowuje go do PetType
+    //metoda dostaje petType jako string i dopasowuje go do PetType zachodzi taka potrzzeba przy uzywaniu
+    //
     @Override
     public PetType parse(String text, Locale locale) throws ParseException
     {
